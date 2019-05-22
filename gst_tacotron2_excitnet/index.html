@@ -1,0 +1,426 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Effective parameter estimation methods for an ExcitNet model in generative text-to-speech systems
+    </title>
+    <link rel="shortcut icon" href="img/clova_192x192.png">
+    <link rel="icon" href="img/clova_192x192.png">
+    <link rel="apple-touch-icon" href="img/clova_192x192.png">
+</head>
+<body>
+
+<article>
+    <header>
+        <h1>Effective parameter estimation methods for an ExcitNet model in generative text-to-speech systems</h1>
+    </header>
+</article>
+
+<hr>
+<div>
+Authors: <b>Ohsung Kwon, Eunwoo Song, Jae-Min Kim, Hong-Goo Kang</b>
+<br>
+Date: 20 May 2019 (last updated 22 May 2019)
+<ul>
+  <li>Abstract</li>
+    In this paper, we propose a high-quality generative text-to-speech (TTS) system using an effective spectrum and excitation estimation method.
+    Our previous research verified the effectiveness of the ExcitNet-based speech generation model in a parametric TTS framework.
+    However, the challenge remains to build a high-quality speech synthesis system because auxiliary conditional features estimated by a simple deep neural network often contain large prediction errors, and the errors are inevitably propagated throughout the autoregressive generation process of the ExcitNet vocoder.
+    To generate more natural speech signals, we exploited a sequence-to-sequence (seq2seq) acoustic model with an attention-based generative network (e.g., Tacotron 2) to estimate the condition parameters of the ExcitNet vocoder.
+    Because the seq2seq acoustic model accurately estimates spectral parameters, and because the ExcitNet model effectively generates the corresponding time-domain excitation signals, combining these two models can synthesize natural speech signals.
+    Furthermore, we verified the merit of the proposed method in producing expressive speech segments by adopting a global style token-based emotion embedding method.
+    The experimental results confirmed that the proposed system significantly outperforms the systems with a similarly configured conventional WaveNet vocoder and our best prior parametric TTS counterpart.
+  <br>
+</ul>
+  <center>
+  <img src="img/fig1_v3.png">
+  </center>
+<ul>
+  <br>
+  <li>Submitted to: <a href=http://ssw10.oeaw.ac.at/>Speech Synthesis Workshop 2019</a></li>
+  <li>Preprinted version: <a href=https://arxiv.org/abs/1905.08486/">1905.08486</a></li>
+</ul>
+</div>  
+<hr>
+
+<div>
+Table of Contents
+<ul>
+  <li><a href="#c1">Narrative speech synthesis</a></li>
+  <ul>
+    <li>Acoustic model: Parametric model <a href="#c3">[1]</a>, generative model <a href="#c3">[2]</a></li>
+    <li>Vocoding model: ITFTE LPC vocoder <a href="#c3">[1]</a>, WaveNet vocoder <a href="#c3">[3]</a>, ExcitNet vocoder <a href="#c3">[4]</a></li>
+  </ul>
+  <li><a href="#c2">Expressive speech synthesis</a></li>
+  <ul>
+    <li>Acoustic model: Generative model with global style token <a href="#c3">[5]</a></li>
+    <li>Vocoding model: ITFTE LPC vocoder, WaveNet vocoder, ExcitNet vocoder</li>
+  </ul>
+</ul>
+</div>
+<hr>
+
+<div>
+<h2 id="c1"> Narrative speech synthesis </h2>
+
+<b>Korean female speaker</b>
+<br>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;border:none;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg .tg-8jgo{border-color:#ffffff;text-align:center;vertical-align:top}
+.tg .tg-lghr{border-color:#ffffff;text-align:center}
+.tg .tg-0a55{background-color:#f0f0f0;border-color:#ffffff;text-align:center;vertical-align:top}
+.tg .tg-modu{background-color:#f0f0f0;border-color:#ffffff;text-align:center}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-modu" colspan="3"><b>RAW</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="3">
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample001_RAW.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample002_RAW.wav">
+      </audio>   
+      <br><br>
+    </td>    
+  </tr>  
+  <tr>
+    <td class="tg-modu" colspan="3"><b>Parametric TTS</b></td>
+  </tr>
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample001_ParametricTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample002_ParametricTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <b>ITFTE Vocoder</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample001_ParametricTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample002_ParametricTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <b>WaveNet Vocoder</b>
+      <br><br>
+    <td class="tg-lghr">
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample001_ParametricTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample002_ParametricTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>ExcitNet Vocoder</b>
+      <br><br>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-0a55" colspan="3"><b>Generative TTS</b></td>
+  </tr>
+  <tr>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample001_GenerativeTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample002_GenerativeTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <b>ITFTE Vocoder</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample001_GenerativeTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample002_GenerativeTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <b>WaveNet Vocoder</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample001_GenerativeTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krf/sample002_GenerativeTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>ExcitNet Vocoder</b>
+      <br><br>
+    </td>
+  </tr>
+</table>
+<br>
+
+<b>Korean male speaker</b>
+<br>
+<table class="tg">
+  <tr>
+    <th class="tg-modu" colspan="3"><b>RAW</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="3">
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample001_RAW.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample002_RAW.wav">
+      </audio>   
+      <br><br>
+    </td>    
+  </tr>  
+  <tr>
+    <td class="tg-modu" colspan="3"><b>Parametric TTS</b></td>
+  </tr>
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample001_ParametricTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample002_ParametricTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <b>ITFTE Vocoder</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample001_ParametricTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample002_ParametricTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <b>WaveNet Vocoder</b>
+      <br><br>
+    <td class="tg-lghr">
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample001_ParametricTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample002_ParametricTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>ExcitNet Vocoder</b>
+      <br><br>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-0a55" colspan="3"><b>Generative TTS</b></td>
+  </tr>
+  <tr>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample001_GenerativeTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample002_GenerativeTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <b>ITFTE Vocoder</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample001_GenerativeTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample002_GenerativeTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <b>WaveNet Vocoder</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample001_GenerativeTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/narrative/krm/sample002_GenerativeTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>ExcitNet Vocoder</b>
+      <br><br>
+    </td>
+  </tr>
+</table>
+<br>
+</div>
+<hr>
+<div>
+<h2 id="c2"> Expressive speech synthesis </h2>
+
+<b>Happy emotion (Korean female speaker)</b>
+<br>
+<table class="tg">
+  <tr>
+    <th class="tg-modu" colspan="3"><b>RAW</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="3">
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/happy/sample001_RAW.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/happy/sample002_RAW.wav">
+      </audio>   
+      <br><br>
+    </td>    
+  </tr>  
+  <tr>
+    <td class="tg-0a55" colspan="3"><b>Generative TTS</b></td>
+  </tr>
+  <tr>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/happy/sample001_GenerativeTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/happy/sample002_GenerativeTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <b>ITFTE Vocoder</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/happy/sample001_GenerativeTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/happy/sample002_GenerativeTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <b>WaveNet Vocoder</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/happy/sample001_GenerativeTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/happy/sample002_GenerativeTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>ExcitNet Vocoder</b>
+      <br><br>
+    </td>
+  </tr>
+</table>
+<br>
+
+<b>Sad emotion (Korean female speaker)</b>
+<br>
+<table class="tg">
+  <tr>
+    <th class="tg-modu" colspan="3"><b>RAW</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="3">
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/sad/sample001_RAW.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/sad/sample002_RAW.wav">
+      </audio>   
+      <br><br>
+    </td>    
+  </tr>  
+  <tr>
+    <td class="tg-0a55" colspan="3"><b>Generative TTS</b></td>
+  </tr>
+  <tr>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/sad/sample001_GenerativeTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/sad/sample002_GenerativeTTS_ITFTE.wav">
+      </audio>
+      <br>
+      <b>ITFTE Vocoder</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/sad/sample001_GenerativeTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/sad/sample002_GenerativeTTS_WaveNet.wav">
+      </audio>
+      <br>
+      <b>WaveNet Vocoder</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/sad/sample001_GenerativeTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/expressive/sad/sample002_GenerativeTTS_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>ExcitNet Vocoder</b>
+      <br><br>
+    </td>
+  </tr>
+</table>
+</div>
+
+<hr>
+<div>
+<h2 id="c3"> References </h2>
+<ul>
+  [1] E. Song, F. K. Soong, and H.-G. Kang, “<a href=https://ieeexplore.ieee.org/document/8017571/>Effective spectral and excitation modeling techniques for LSTM-RNN-based speech synthesis systems</a>,” IEEE/ACM Trans. Audio, Speech, and Lang. Process., vol. 25, no. 11, pp. 2152–2161, 2017.
+  <br>
+  [2] J. Shen, R. Pang, R. J. Weiss, M. Schuster, N. Jaitly, Z. Yang, Z. Chen, Y. Zhang, Y. Wang, R. Skerrv-Ryan et al., “<a href=https://ieeexplore.ieee.org/document/8461368>Natural TTS synthesis by conditioning WaveNet on mel spectrogram predictions</a>,” in Proc. ICASSP, 2018, pp. 4779–4783.
+  <br>
+  [3] K. Tachibana, T. Toda, Y. Shiga, and H. Kawai, “<a href=https://ieeexplore.ieee.org/document/8461332>An investigation of noise shaping with perceptual weighting for WaveNet-based speech generation</a>,” inProc. ICASSP, 2018, pp. 5664–5668.
+  <br>
+  [4] E. Song, K. Byun, and H.-G. Kang, “<a href=https://arxiv.org/abs/1811.04769/>Excitnet vocoder:  A neural excitation model for parametric speech synthesis systems</a>,”arXivpreprint arXiv:1811.04769, 2018.
+  <br>
+  [5] Y. Wang, D. Stanton, Y.  Zhang, R. Skerry-Ryan, E. Battenberg, J. Shor, Y. Xiao, F. Ren, Y. Jia, and R. A. Saurous, “<a href=https://arxiv.org/abs/1803.09017/>Style tokens: Unsupervised style modeling, control and transfer in end-to-end speech synthesis</a>,”arXiv preprint arXiv:1803.09017, 2018.
+  <br>
+</div>
+
+<hr>
+<div>
+Work performed with nVoice team, Clova Voice, Naver Corp.
+<br>
+</div>
