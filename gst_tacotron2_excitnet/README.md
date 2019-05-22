@@ -1,4 +1,3 @@
-# Speech Synthesis Demo [[link](https://sewplay.github.io/demo_gst_t2_en)]
 
 ### Title
 - Effective parameter estimation methods for an ExcitNet model in generative text-to-speech systems
@@ -9,11 +8,15 @@
 
 ---
 
-![fig](/img/fig1_v3.png)
+![fig](img/fig1_v3.png)
 
 ---
 
+### Demo page
+- [link](https://sewplay.github.io/demos/gst_tacotron2_excitnet/index.html)
+
 ### Submitted to
 - [Speech Synthesis Workshop 2019](http://ssw10.oeaw.ac.at/)
+
 ### Preprinted version
 - [arXiv 1905.08486](https://arxiv.org/abs/1905.08486/)
