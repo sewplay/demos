@@ -12,6 +12,6 @@
 
 ---
 
-- Demo page: [link](https://sewplay.github.io/demos/gst_tacotron2_excitnet/)
+- Demo page: [https://sewplay.github.io/demos/gst_tacotron2_excitnet](https://sewplay.github.io/demos/gst_tacotron2_excitnet/)
 - Submitted to: [Speech Synthesis Workshop 2019](http://ssw10.oeaw.ac.at/)
 - Preprinted version:  [arXiv 1905.08486](https://arxiv.org/abs/1905.08486/)
