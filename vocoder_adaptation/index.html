@@ -1,0 +1,494 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Speaker-adaptive neural vocoders for parametric speech synthesis systems
+    </title>
+    <link rel="shortcut icon" href="img/clova_192x192.png">
+    <link rel="icon" href="img/clova_192x192.png">
+    <link rel="apple-touch-icon" href="img/clova_192x192.png">
+</head>
+<body>
+
+<article>
+    <header>
+        <h1>Speaker-adaptive neural vocoders for parametric speech synthesis systems</h1>
+    </header>
+</article>
+
+<hr>
+<div>
+Authors: <b>Eunwoo Song, Jinseob Kim, Kyungguen Byun, Hong-Goo Kang</b>
+<br>
+Date: 28 Jun 2019 (last updated 28 Jun 2019)
+<ul>
+  <li>Abstract</li>
+    This paper proposes speaker-adaptive neural vocoders for statistical parametric speech synthesis (SPSS) systems. 
+    Recently proposed WaveNet-based neural vocoding systems successfully generate a time sequence of speech signal with an autoregressive framework.
+    However, it remains a challenge to build high-quality speech synthesis systems when the amount of a target speaker's training data is insufficient.
+    To generate more natural speech signals with the constraint of limited training data, we propose a speaker adaptation task with an effective variation of neural vocoding models.
+    In the proposed method, a speaker-independent training method is applied to capture universal attributes embedded in multiple speakers, and the trained model is then optimized to represent the specific characteristics of the target speaker.
+    Experimental results verify that the proposed SPSS systems with speaker-adaptive neural vocoders outperform those with traditional source-filter model-based vocoders and those with WaveNet vocoders, trained either speaker-dependently or speaker-independently.
+    <br>
+</ul>
+  <center>
+  <img src="img/fig1.png">
+  </center>
+<ul>
+  <br>
+  <li>Preprinted version: <a href=http://arxiv.org/abs/1811.03311/">1811.03311</a></li>
+</ul>
+</div>  
+<hr>
+
+<div>
+Table of Contents
+<ul>
+  <li><a href="#c1">Speech analysis and synthesis</a></li>
+  <ul>
+    <li>Vocoding model: WaveNet vocoder <a href="#c3">[1]</a>, ExcitNet vocoder <a href="#c3">[2]</li>
+  </ul>
+  <li><a href="#c2">Statistical parametric speech synthesis</a></li>
+  <ul>
+    <li>Vocoding model: WaveNet vocoder, ExcitNet vocoder</li>
+  </ul>
+</ul>
+</div>
+<hr>
+
+<div>
+<h2 id="c1">Speech analysis and synthesis</h2>
+
+<b>Korean female speaker</b>
+<br>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;border:none;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg .tg-8jgo{border-color:#ffffff;text-align:center;vertical-align:top}
+.tg .tg-lghr{border-color:#ffffff;text-align:center}
+.tg .tg-0a55{background-color:#f0f0f0;border-color:#ffffff;text-align:center;vertical-align:top}
+.tg .tg-modu{background-color:#f0f0f0;border-color:#ffffff;text-align:center}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-modu" colspan="3"><b>RAW</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="3">
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample001_RAW.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample002_RAW.wav">
+      </audio>   
+      <br><br>
+    </td>    
+  </tr>  
+  <tr>
+    <td class="tg-modu" colspan="3"><b>WaveNet vocoder</b></td>
+  </tr>
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample001_as_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample002_as_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample001_as_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample002_as_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    <td class="tg-lghr">
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample001_as_sd_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample002_as_sd_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-adaptive</b>
+      <br><br>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-0a55" colspan="3"><b>ExcitNet vocoder</b></td>
+  </tr>
+  <tr>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample001_as_si_ITFTE.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample002_as_si_ITFTE.wav">
+      </audio>
+      <br>
+      <b>Speaker-dependent</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample001_as_si_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample002_as_si_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample001_as_si_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krf/sample002_as_si_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-adaptive</b>
+      <br><br>
+    </td>
+  </tr>
+</table>
+<br>
+
+<b>Korean male speaker</b>
+<br>
+<table class="tg">
+  <tr>
+    <th class="tg-modu" colspan="3"><b>RAW</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="3">
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample001_RAW.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample002_RAW.wav">
+      </audio>   
+      <br><br>
+    </td>    
+  </tr>  
+  <tr>
+    <td class="tg-modu" colspan="3"><b>WaveNet vocoder</b></td>
+  </tr>
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample001_as_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample002_as_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample001_as_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample002_as_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    <td class="tg-lghr">
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample001_as_sd_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample002_as_sd_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-adaptive</b>
+      <br><br>
+    </td>
+  </tr>
+  
+  <tr>
+    <td class="tg-0a55" colspan="3"><b>ExcitNet vocoder</b></td>
+  </tr>
+  <tr>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample001_as_si_ITFTE.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample002_as_si_ITFTE.wav">
+      </audio>
+      <br>
+      <b>Speaker-dependent</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample001_as_si_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample002_as_si_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample001_as_si_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/analysis-synthesis/krm/sample002_as_si_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-adaptive</b>
+      <br><br>
+    </td>
+  </tr>
+</table>
+<br>
+</div>
+<hr>
+<div>
+<h2 id="c2"> Text-to-speech </h2>
+
+<b>Korean female speaker</b>
+<br>
+<table class="tg">
+  <tr>
+    <th class="tg-modu" colspan="3"><b>RAW</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="3">
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample001_RAW.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample002_RAW.wav">
+      </audio>   
+      <br><br>
+    </td>    
+  </tr>  
+  <tr>
+    <td class="tg-modu" colspan="3"><b>WaveNet vocoder</b></td>
+  </tr>
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample001_tts_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample002_tts_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample001_tts_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample002_tts_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    <td class="tg-lghr">
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample001_tts_sd_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample002_tts_sd_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-adaptive</b>
+      <br><br>
+    </td>
+  </tr>
+  <tr>
+    <td class="tg-0a55" colspan="3"><b>ExcitNet vocoder</b></td>
+  </tr>
+  <tr>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample001_tts_si_ITFTE.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample002_tts_si_ITFTE.wav">
+      </audio>
+      <br>
+      <b>Speaker-dependent</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample001_tts_si_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample002_tts_si_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample001_tts_si_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krf/sample002_tts_si_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-adaptive</b>
+      <br><br>
+    </td>
+  </tr>
+</table>
+<br>
+
+<b>Korean male speaker</b>
+<br>
+<table class="tg">
+  <tr>
+    <th class="tg-modu" colspan="3"><b>RAW</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="3">
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample001_RAW.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample002_RAW.wav">
+      </audio>   
+      <br><br>
+    </td>    
+  </tr>  
+  <tr>
+    <td class="tg-modu" colspan="3"><b>WaveNet model</b></td>
+  </tr>
+  <tr>
+    <td class="tg-lghr">      
+      -
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample001_tts_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample002_tts_sd_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    <td class="tg-lghr">
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample001_tts_sd_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample002_tts_sd_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-adaptive</b>
+      <br><br>
+    </td>
+  </tr>
+  
+  <tr>
+    <td class="tg-0a55" colspan="3"><b>ExcitNet vocoder</b></td>
+  </tr>
+  <tr>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample001_tts_si_ITFTE.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample002_tts_si_ITFTE.wav">
+      </audio>
+      <br>
+      <b>Speaker-dependent</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample001_tts_si_WaveNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample002_tts_si_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-independent</b>
+      <br><br>
+    </td>
+    <td class="tg-8jgo">
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample001_tts_si_ExcitNet.wav">
+      </audio>
+      <br>
+      <audio controls style="width: 250px;">
+      <source src="samples/text-to-speech/krm/sample002_tts_si_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Speaker-adaptive</b>
+      <br><br>
+    </td>
+  </tr>
+</table>
+</div>
+
+<hr>
+<div>
+<h2 id="c3"> References </h2>
+<ul>
+  [1] E. Song, F. K. Soong, and H.-G. Kang, “<a href=https://ieeexplore.ieee.org/document/8017571/>Effective spectral and excitation modeling techniques for LSTM-RNN-based speech synthesis systems</a>,” IEEE/ACM Trans. Audio, Speech, and Lang. Process., vol. 25, no. 11, pp. 2152–2161, 2017.
+  <br>
+  [2] K. Tachibana, T. Toda, Y. Shiga, and H. Kawai, “<a href=https://ieeexplore.ieee.org/document/8461332>An investigation of noise shaping with perceptual weighting for WaveNet-based speech generation</a>,” inProc. ICASSP, 2018, pp. 5664–5668.
+  <br>
+</div>
+
+<hr>
+<div>
+<h2> Acknowledgements </h2>
+Work performed with nVoice team, Clova Voice, Naver Corp.
+<br>
+</div>
+
+</body>
+</html>
