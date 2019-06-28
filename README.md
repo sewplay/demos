@@ -9,6 +9,13 @@
 
 ---
 
+### Speaker-adaptive neural vocoders for parametric speech synthesis systems
+- Authors: Eunwoo Song, Jinseob Kim, Kyungguen Byun, Hong-Goo Kang
+- Demo page: [https://sewplay.github.io/demos/vocoder_adaptation](https://sewplay.github.io/demos/vocoder_adaptation/)
+- Preprinted version: [arXiv 1811.03311](https://arxiv.org/abs/1811.03311/)
+
+---
+
 ### ExcitNet vocoder: A neural excitation model for parametric speech synthesis systems
 - Authors: Eunwoo Song, Kyungguen Byun, Hong-Goo Kang
 - Demo page: [https://sewplay.github.io/demos/excitnet](https://sewplay.github.io/demos/excitnet/)
