@@ -9,7 +9,7 @@
 ---
 
 ### Probability density distillation with generative adversarial networks for high-quality parallel waveform generation
-- Authors: Ryuichi Yamamoto, Eunwoo Song, Kyungguen Byun, Jae-Min Kim
+- Authors: Ryuichi Yamamoto, Eunwoo Song, Jae-Min Kim
 - Demo page: [https://r9y9.github.io/demos/projects/interspeech2019](https://r9y9.github.io/demos/projects/interspeech2019/)
 - To be published in: [INTERSPEECH 2019](http://interspeech2019.org)
 - Preprinted version: [arXiv 1904.04472](https://arxiv.org/abs/1904.04472/)
