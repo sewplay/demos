@@ -14,5 +14,5 @@
 ---
 
 - Demo page: [https://sewplay.github.io/demos/excitnet](https://sewplay.github.io/demos/excitnet/)
-- To be published in: [EUSIPCO 2019](http://eusipco2019.org)
+- Published in: [EUSIPCO 2019](http://eusipco2019.org)
 - Preprinted version:  [arXiv 1811.04769](https://arxiv.org/abs/1811.04769/)
