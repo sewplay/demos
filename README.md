@@ -40,6 +40,13 @@
 
 ---
 
+### LP-WaveNet: Linear prediction-based WaveNet speech synthesis
+- Authors: Min-Jae Hwang, Frank Soong, Eunwoo Song, Xi Wang, Hyeonjoo Kang, Hong-Goo Kang
+- Demo page: [https://min-jae.github.io/eusipco2020](https://min-jae.github.io/eusipco2020/)
+- Preprinted version: [arXiv 1811.11913](https://arxiv.org/abs/1811.11913/)
+
+---
+
 ### Speaker-adaptive neural vocoders for parametric speech synthesis systems
 - Authors: Eunwoo Song, Jinseob Kim, Kyungguen Byun, Hong-Goo Kang
 - Demo page: [https://sewplay.github.io/demos/vocoder_adaptation](https://sewplay.github.io/demos/vocoder_adaptation/)

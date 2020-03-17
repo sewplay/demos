@@ -19,24 +19,27 @@
 <div>
 Authors: <b>Eunwoo Song, Jinseob Kim, Kyungguen Byun, Hong-Goo Kang</b>
 <br>
-Date: 28 Jun 2019 (last updated 30 Oct 2019)
+Date: 28 Jun 2019 (last updated 17 Mar 2020)
 <ul>
   <li>Abstract</li>
-    This paper proposes speaker-adaptive neural vocoders for statistical parametric speech synthesis (SPSS) systems. 
+    This paper proposes speaker-adaptive neural vocoders for text-to-speech (TTS) systems. 
     Recently proposed WaveNet-based neural vocoding systems successfully generate a time sequence of speech signal with an autoregressive framework.
     However, it remains a challenge to build high-quality speech synthesis systems when the amount of a target speaker's training data is insufficient.
     To generate more natural speech signals with the constraint of limited training data, we propose a speaker adaptation task with an effective variation of neural vocoding models.
     In the proposed method, a speaker-independent training method is applied to capture universal attributes embedded in multiple speakers, and the trained model is then optimized to represent the specific characteristics of the target speaker.
-    Experimental results verify that the proposed SPSS systems with speaker-adaptive neural vocoders outperform those with traditional source-filter model-based vocoders and those with WaveNet vocoders, trained either speaker-dependently or speaker-independently.
+    Experimental results verify that the proposed TTS systems with speaker-adaptive neural vocoders outperform those with traditional source-filter model-based vocoders and those with WaveNet vocoders, trained either speaker-dependently or speaker-independently.
+    In particular, our TTS system achieves 3.80 and 3.77 MOS for the Korean male and Korean female speakers, respectively, even though we use only ten minutes' speech corpus for training the model.
     <br>
 </ul>
   <center>
   <img src="img/fig1.png">
   </center>
+<!--
 <ul>
   <br>
   <li>Preprinted version: <a href=http://arxiv.org/abs/1811.03311/">1811.03311</a></li>
 </ul>
+-->
 </div>  
 <hr>
 
@@ -47,7 +50,7 @@ Table of Contents
   <ul>
     <li>Vocoding model: WaveNet vocoder <a href="#c3">[1]</a>, ExcitNet vocoder <a href="#c3">[2]</li>
   </ul>
-  <li><a href="#c2">Statistical parametric speech synthesis</a></li>
+  <li><a href="#c2">Text-to-speech</a></li>
   <ul>
     <li>Vocoding model: WaveNet vocoder, ExcitNet vocoder</li>
   </ul>
@@ -174,7 +177,7 @@ Table of Contents
 <hr>
 
 <div>
-<h2 id="c2">Statistical parametric speech synthesis</h2>
+<h2 id="c2">Text-to-speech</h2>
 <ul>
 <b>Korean female speaker</b>
 <br>
@@ -298,13 +301,13 @@ Table of Contents
 <br>
 </div>
 
-
+<!--
 <hr>
 <div>
 <h2> Citation </h2>
 <ul> 
   <pre><code>@misc{song2018speaker,
-    title={Speaker-adaptive neural vocoders for statistical parametric speech synthesis systems},
+    title={Speaker-adaptive neural vocoders for parametric speech synthesis systems},
     author={Song, Eunwoo and Kim, Jinseob and Byun, Kyungguen and Kang, Hong-Goo},
     eprint={1811.03311},
     archivePrefix={arXiv},
@@ -315,7 +318,7 @@ Table of Contents
 </ul>  
 </div>
 <br>
-
+-->
 
 </body>
 </html>
