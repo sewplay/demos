@@ -1,0 +1,347 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Neural text-to-speech with a modeling-by-generation excitation model
+    </title>
+    <link rel="shortcut icon" href="img/clova_192x192.png">
+    <link rel="icon" href="img/clova_192x192.png">
+    <link rel="apple-touch-icon" href="img/clova_192x192.png">
+</head>
+<body>
+
+<article>
+    <header>
+        <h1>Neural text-to-speech with a modeling-by-generation excitation model</h1>
+    </header>
+</article>
+
+<hr>
+<div>
+Authors: <b>Eunwoo Song, Min-Jae Hwang, Ryuichi Yamamoto, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim</b>
+<br>
+Date: 22 April 2020 (last updated 22 April 2020)
+<ul>
+  <li>Abstract</li>
+    In this paper, we propose a modeling-by-generation (MbG)-structured excitation model for a parametric text-to-speech (TTS) system.
+    The recently proposed neural excitation vocoders successfully generates a time-sequence of speech signal by combining a vocal tract spectral filter with a WaveNet-based glottal excitation generator.   
+    However, the quality of synthesized speech is often degraded owing to the mismatch problem between the training and synthesis phases.
+    As the vocoding model is trained without considering the effect of acoustic model front-end, the errors in estimating conditional inputs are inevitably boosted throughout the synthesis process of the vocoder back-end.
+    To address this problem, we propose to incorporate the MbG structure into the neural excitation model as a closed-loop solution.
+    In the proposed method, the excitation signal is extracted by the generated spectral parameters, and the WaveNet is then optimized not only to learn the target excitation's distribution, but also to compensate for the errors occurred from the acoustic model.
+    Furthermore, as the same spectral parameters are shared in the training and synthesis steps, their mismatch condition can be significantly reduced.
+    The experimental results verify that the proposed system provides high quality synthetic speech by achieving a mean opinion score of 4.51 within a neural TTS framework.  <br>
+</ul>
+  <center>
+  <img src="img/fig1.png">
+  </center>
+<!--  
+<ul>
+  <br>
+  <li>Preprinted version: <a href=https://arxiv.org/abs/1905.08486/">1905.08486</a></li>
+</ul>
+-->
+</div>  
+<hr>
+
+<div>
+<ul>
+  <li>Acoustic model
+  <ul>
+    <li>Tacotron-style model with phoneme alignment <a href="#c3">[1]</a>
+  </ul>
+  <li>Vocoding model
+  <ul>
+    <li>Proposed MbG-ExcitNet
+    <li>Baseline: WaveNet and ExcitNet trained with ground-truth acoustic parameters <a href="#c3">[2, 3]</a>
+    <li>Baseline: G-WaveNet and G-ExcitNet trained with generated acoustic parameters <a href="#c3">[4]</a>
+  </ul>
+</ul>
+</div>
+<hr>
+
+<div>
+<h2 id="c1"> TTS demos </h2>
+<ul> 
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;border:none;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.tg .tg-8jgo{border-color:#ffffff;text-align:center;vertical-align:top}
+.tg .tg-lghr{border-color:#ffffff;text-align:center}
+.tg .tg-0a55{background-color:#f0f0f0;border-color:#ffffff;text-align:center;vertical-align:top}
+.tg .tg-modu{background-color:#f0f0f0;border-color:#ffffff;text-align:center}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-modu" colspan="2"><b>Sample1</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="1">
+      <audio controls style="width: 250px;">
+      <source src="samples/sample001_Raw.wav">
+      </audio>
+      <br>
+      <b>Raw</b>
+      <br><br>
+    </td>    
+    <td class="tg-lghr" colspan="1">
+      <audio controls style="width: 250px;">
+      <source src="samples/sample001_MbG-ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Proposed MbG-ExcitNet</b>
+      <br><br>
+    </td>      
+  </tr>  
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample001_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Baseline WaveNet</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample001_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Baseline ExcitNet</b>
+      <br><br>
+  </tr>
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample001_G-WaveNet.wav">
+      </audio>
+      <br>
+      <b>Baseline G-WaveNet</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample001_G-ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Baseline G-ExcitNet</b>
+      <br><br>
+  </tr>
+  
+  <tr>
+    <th class="tg-modu" colspan="2"><b>Sample2</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="1">
+      <audio controls style="width: 250px;">
+      <source src="samples/sample002_Raw.wav">
+      </audio>
+      <br>
+      <b>Raw</b>
+      <br><br>
+    </td>    
+    <td class="tg-lghr" colspan="1">
+      <audio controls style="width: 250px;">
+      <source src="samples/sample002_MbG-ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Proposed MbG-ExcitNet</b>
+      <br><br>
+    </td>      
+  </tr>  
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample002_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Baseline WaveNet</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample002_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Baseline ExcitNet</b>
+      <br><br>
+  </tr>
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample002_G-WaveNet.wav">
+      </audio>
+      <br>
+      <b>Baseline G-WaveNet</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample002_G-ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Baseline G-ExcitNet</b>
+      <br><br>
+  </tr>
+  
+  <tr>
+    <th class="tg-modu" colspan="2"><b>Sample3</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="1">
+      <audio controls style="width: 250px;">
+      <source src="samples/sample003_Raw.wav">
+      </audio>
+      <br>
+      <b>Raw</b>
+      <br><br>
+    </td>    
+    <td class="tg-lghr" colspan="1">
+      <audio controls style="width: 250px;">
+      <source src="samples/sample003_MbG-ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Proposed MbG-ExcitNet</b>
+      <br><br>
+    </td>      
+  </tr>  
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample003_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Baseline WaveNet</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample003_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Baseline ExcitNet</b>
+      <br><br>
+  </tr>
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample003_G-WaveNet.wav">
+      </audio>
+      <br>
+      <b>Baseline G-WaveNet</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample003_G-ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Baseline G-ExcitNet</b>
+      <br><br>
+  </tr>
+  
+  <tr>
+    <th class="tg-modu" colspan="2"><b>Sample4</b></th>
+  </tr>
+  <tr>
+    <td class="tg-lghr" colspan="1">
+      <audio controls style="width: 250px;">
+      <source src="samples/sample004_Raw.wav">
+      </audio>
+      <br>
+      <b>Raw</b>
+      <br><br>
+    </td>    
+    <td class="tg-lghr" colspan="1">
+      <audio controls style="width: 250px;">
+      <source src="samples/sample004_MbG-ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Proposed MbG-ExcitNet</b>
+      <br><br>
+    </td>      
+  </tr>  
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample004_WaveNet.wav">
+      </audio>
+      <br>
+      <b>Baseline WaveNet</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample004_ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Baseline ExcitNet</b>
+      <br><br>
+  </tr>
+  <tr>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample004_G-WaveNet.wav">
+      </audio>
+      <br>
+      <b>Baseline G-WaveNet</b>
+      <br><br>
+    </td>
+    <td class="tg-lghr">      
+      <audio controls style="width: 250px;">
+      <source src="samples/sample004_G-ExcitNet.wav">
+      </audio>
+      <br>
+      <b>Baseline G-ExcitNet</b>
+      <br><br>
+  </tr>
+  
+</table>
+<br>
+</ul> 
+</div>
+
+<hr>
+<div>
+<h2 id="c3"> References </h2>
+<ul>
+  [1] A. Tamamori, T. Hayashi, K. Kobayashi, K. Takeda, and T. Toda, “<a href=https://www.isca-speech.org/archive/Interspeech_2017/abstracts/0314.html>Speaker-dependent WaveNet vocoder</a>,” in Proc. INTER-SPEECH, 2017, pp. 1118–1122.
+  <br>
+  [2] T. Okamoto, T. Toda, Y. Shiga, and H. Kawai, “<a href=https://ieeexplore.ieee.org/document/9003956/>Tacotron-basedacoustic model using phoneme alignment for practical neural text-to-speech systems</a>,” in Proc. ASRU, 2019, pp. 214–221.
+  <br>
+  [3] E. Song, K. Byun, and H.-G. Kang, “<a href=https://ieeexplore.ieee.org/document/8902701/>Excitnet vocoder:  A neural excitation model for parametric speech synthesis systems</a>,” in Proc. EUSIPCO, 2019, pp. 1179-1183.
+  <br>
+  [4] J. Shen, R. Pang, R. J. Weiss, M. Schuster, N. Jaitly, Z. Yang, Z. Chen, Y. Zhang, Y. Wang, R. Skerrv-Ryan et al., “<a href=https://ieeexplore.ieee.org/document/8461368>Natural TTS synthesis by conditioning WaveNet on mel spectrogram predictions</a>,” in Proc. ICASSP, 2018, pp. 4779–4783.
+  <br>
+</div>
+
+
+<br>
+<hr>
+<div>
+<h2> Acknowledgements </h2>
+<ul> Work performed with nVoice team, Clova Voice, Naver Corp. </ul>  
+<br>
+</div>
+
+<!--  
+<hr>
+<div>
+<h2> Citation </h2>
+<ul> 
+  <pre><code>@misc{kwon2019effective,
+    title={Effective parameter estimation methods for an {E}xcit{N}et model in generative text-to-speech systems},
+    author={Kwon, Ohsung and Song, Eunwoo and Kim, Jae-Min and Kang, Hong-Goo},
+    eprint={1905.08486},
+    archivePrefix={arXiv},
+    primaryClass={eess.AS},
+    year={2019}
+  }
+  </code></pre>
+</ul>  
+</div>
+<br>
+-->
+
+</body>
+</html>
