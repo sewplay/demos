@@ -19,17 +19,17 @@
 <div>
 Authors: <b>Eunwoo Song, Min-Jae Hwang, Ryuichi Yamamoto, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim</b>
 <br>
-Date: 22 April 2020 (last updated 22 April 2020)
+Date: 22 April 2020 (last updated 12 May 2020)
 <ul>
   <li>Abstract</li>
-    In this paper, we propose a modeling-by-generation (MbG)-structured excitation model for a parametric text-to-speech (TTS) system.
-    The recently proposed neural excitation vocoders successfully generates a time-sequence of speech signal by combining a vocal tract spectral filter with a WaveNet-based glottal excitation generator.   
-    However, the quality of synthesized speech is often degraded owing to the mismatch problem between the training and synthesis phases.
-    As the vocoding model is trained without considering the effect of acoustic model front-end, the errors in estimating conditional inputs are inevitably boosted throughout the synthesis process of the vocoder back-end.
-    To address this problem, we propose to incorporate the MbG structure into the neural excitation model as a closed-loop solution.
-    In the proposed method, the excitation signal is extracted by the generated spectral parameters, and the WaveNet is then optimized not only to learn the target excitation's distribution, but also to compensate for the errors occurred from the acoustic model.
-    Furthermore, as the same spectral parameters are shared in the training and synthesis steps, their mismatch condition can be significantly reduced.
-    The experimental results verify that the proposed system provides high quality synthetic speech by achieving a mean opinion score of 4.51 within a neural TTS framework.  <br>
+    This paper proposes a modeling-by-generation (MbG) excitation vocoder for a neural text-to-speech (TTS) system. 
+    Recently proposed neural excitation vocoders can realize qualified waveform generation by combining a vocal tract filter with a WaveNet-based glottal excitation generator. 
+    However, when these vocoders are used in a TTS system, the quality of synthesized speech is often degraded owing to a mismatch between training and synthesis phases. 
+    Specifically, the vocoder is separately trained from an acoustic model front-end, and estimation errors of the acoustic model are inevitably boosted throughout the synthesis process of the vocoder back-end. 
+    To address this problem, we propose to incorporate an MbG structure into the vocoder's training process. 
+    In the proposed method, the excitation signal is extracted by the acoustic model's generated spectral parameters, and the neural vocoder is then optimized not only to learn the target excitation's distribution but also to compensate for the estimation errors occurring from the acoustic model. 
+    Furthermore, as the generated spectral parameters are shared in the training and synthesis phases, their mismatch conditions can be reduced effectively. 
+    The experimental results verify that the proposed system provides high-quality synthetic speech by achieving a mean opinion score of 4.57 within the TTS framework.
 </ul>
   <center>
   <img src="img/fig1.png">
@@ -305,9 +305,9 @@ Date: 22 April 2020 (last updated 22 April 2020)
 <div>
 <h2 id="c3"> References </h2>
 <ul>
-  [1] T. Okamoto, T. Toda, Y. Shiga, and H. Kawai, “<a href=https://ieeexplore.ieee.org/document/9003956/>Tacotron-basedacoustic model using phoneme alignment for practical neural text-to-speech systems</a>,” in Proc. ASRU, 2019, pp. 214–221.
+  [1] T. Okamoto, T. Toda, Y. Shiga, and H. Kawai, “<a href=https://ieeexplore.ieee.org/document/9003956/>Tacotron-based acoustic model using phoneme alignment for practical neural text-to-speech systems</a>,” in Proc. ASRU, 2019, pp. 214–221.
   <br>
-  [2] A. Tamamori, T. Hayashi, K. Kobayashi, K. Takeda, and T. Toda, “<a href=https://www.isca-speech.org/archive/Interspeech_2017/abstracts/0314.html>Speaker-dependent WaveNet vocoder</a>,” in Proc. INTER-SPEECH, 2017, pp. 1118–1122.
+  [2] A. Tamamori, T. Hayashi, K. Kobayashi, K. Takeda, and T. Toda, “<a href=https://www.isca-speech.org/archive/Interspeech_2017/abstracts/0314.html>Speaker-dependent WaveNet vocoder</a>,” in Proc. INTERSPEECH, 2017, pp. 1118–1122.
   <br>
   [3] E. Song, K. Byun, and H.-G. Kang, “<a href=https://ieeexplore.ieee.org/document/8902701/>Excitnet vocoder:  A neural excitation model for parametric speech synthesis systems</a>,” in Proc. EUSIPCO, 2019, pp. 1179-1183.
   <br>
