@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Neural text-to-speech with a modeling-by-generation excitation model
+    <title>Improved Parallel WaveGAN with perceptually weighted spectrogram loss
     </title>
     <link rel="shortcut icon" href="img/clova_192x192.png">
     <link rel="icon" href="img/clova_192x192.png">
@@ -11,29 +11,28 @@
 
 <article>
     <header>
-        <h1>Neural text-to-speech with a modeling-by-generation excitation model</h1>
+        <h1>Improved Parallel WaveGAN with perceptually weighted spectrogram loss</h1>
     </header>
 </article>
 
 <hr>
 <div>
-Authors: <b>Eunwoo Song, Min-Jae Hwang, Ryuichi Yamamoto, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim</b>
+Authors: <b>Eunwoo Song, Ryuichi Yamamoto, Min-Jae Hwang, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim</b>
 <br>
-Date: 22 April 2020 (last updated 15 May 2020)
+Date: 15 May 2020
+<!--  
+(last updated 15 May 2020)
+-->
 <ul>
   <li>Abstract</li>
-    This paper proposes a modeling-by-generation (MbG) excitation vocoder for a neural text-to-speech (TTS) system. 
-    Recently proposed neural excitation vocoders can realize qualified waveform generation by combining a vocal tract filter with a WaveNet-based glottal excitation generator. 
-    However, when these vocoders are used in a TTS system, the quality of synthesized speech is often degraded owing to a mismatch between training and synthesis phases. 
-    Specifically, the vocoder is separately trained from an acoustic model front-end, and estimation errors of the acoustic model are inevitably boosted throughout the synthesis process of the vocoder back-end. 
-    To address this problem, we propose to incorporate an MbG structure into the vocoder's training process. 
-    In the proposed method, the excitation signal is extracted by the acoustic model's generated spectral parameters, and the neural vocoder is then optimized not only to learn the target excitation's distribution but also to compensate for the estimation errors occurring from the acoustic model. 
-    Furthermore, as the generated spectral parameters are shared in the training and synthesis phases, their mismatch conditions can be reduced effectively. 
-    The experimental results verify that the proposed system provides high-quality synthetic speech by achieving a mean opinion score of 4.57 within the TTS framework.
+    We propose a spectral-domain perceptual weighting technique for Parallel WaveGAN-based text-to-speech (TTS) systems. 
+    The recently proposed Parallel WaveGAN vocoder successfully generates waveform sequences using a fast non-autoregressive WaveNet model. 
+    By employing a generative adversarial network framework with multi-resolution short-time Fourier transform (MR-STFT) criteria, the light-weight convolutional networks can be effectively trained without any distillation process. 
+    To further improve the vocoding performance, we propose the application of frequency-dependent weighting to the MR-STFT loss function. 
+    The weighting method penalizes perceptually sensitive errors in the frequency domain which enables significant reduction of auditory noise in the synthesized speech while model complexity and inference speed remain light and fast. 
+    Perceptual listening test results demonstrate that our proposed method achieves 4.16 and 4.21 mean opinion scores for female and male Korean speakers, respectively.
 </ul>
-  <center>
-  <img src="img/fig1.png">
-  </center>
+
 </div>  
 <hr>
 
@@ -45,9 +44,11 @@ Date: 22 April 2020 (last updated 15 May 2020)
   </ul>
   <li>Vocoding model
   <ul>
-    <li>Proposed MbG-ExcitNet
-    <li>Baseline: WaveNet and ExcitNet trained with ground-truth acoustic parameters <a href="#c3">[2, 3]</a>
-    <li>Baseline: G-WaveNet and G-ExcitNet trained with generated acoustic parameters <a href="#c3">[4]</a>
+    <li>Proposal: Parallel WaveGAN with perceptually weighted spectrogram loss (PWSL) 
+    <li>Baseline: WaveNet <a href="#c3">[2]</a>
+    <li>Baseline: WaveNet with noise-shaping (NS) <a href="#c3">[3]</a>
+    <li>Baseline: Parallel WaveGAN <a href="#c3">[4]</a>
+    <li>Baseline: Parallel WaveGAN with NS </a>
   </ul>
 </ul>
 </div>
@@ -80,10 +81,10 @@ Date: 22 April 2020 (last updated 15 May 2020)
     </td>    
     <td class="tg-lghr" colspan="1">
       <audio controls style="width: 250px;">
-      <source src="samples/sample001_MbG-ExcitNet.wav">
+      <source src="samples/sample001_WaveGAN-PW.wav">
       </audio>
       <br>
-      <b style="color:red">Proposed MbG-ExcitNet</b>
+      <b style="color:red">Parallel WaveGAN with PWSL</b>
       <br><br>
     </td>      
   </tr>  
@@ -93,32 +94,32 @@ Date: 22 April 2020 (last updated 15 May 2020)
       <source src="samples/sample001_WaveNet.wav">
       </audio>
       <br>
-      <b>Baseline WaveNet</b>
+      <b>WaveNet</b>
       <br><br>
     </td>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample001_ExcitNet.wav">
+      <source src="samples/sample001_WaveNet-NS.wav">
       </audio>
       <br>
-      <b>Baseline ExcitNet</b>
+      <b>WaveNet with NS</b>
       <br><br>
   </tr>
   <tr>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample001_G-WaveNet.wav">
+      <source src="samples/sample001_WaveGAN.wav">
       </audio>
       <br>
-      <b>Baseline G-WaveNet</b>
+      <b>Parallel WaveGAN</b>
       <br><br>
     </td>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample001_G-ExcitNet.wav">
+      <source src="samples/sample001_WaveGAN-NS.wav">
       </audio>
       <br>
-      <b>Baseline G-ExcitNet</b>
+      <b>Parallel WaveGAN with NS</b>
       <br><br>
   </tr>
   
@@ -136,10 +137,10 @@ Date: 22 April 2020 (last updated 15 May 2020)
     </td>    
     <td class="tg-lghr" colspan="1">
       <audio controls style="width: 250px;">
-      <source src="samples/sample002_MbG-ExcitNet.wav">
+      <source src="samples/sample002_WaveGAN-PW.wav">
       </audio>
       <br>
-      <b style="color:red">Proposed MbG-ExcitNet</b>
+      <b style="color:red">Parallel WaveGAN with PWSL</b>
       <br><br>
     </td>      
   </tr>  
@@ -149,32 +150,32 @@ Date: 22 April 2020 (last updated 15 May 2020)
       <source src="samples/sample002_WaveNet.wav">
       </audio>
       <br>
-      <b>Baseline WaveNet</b>
+      <b>WaveNet</b>
       <br><br>
     </td>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample002_ExcitNet.wav">
+      <source src="samples/sample002_WaveNet-NS.wav">
       </audio>
       <br>
-      <b>Baseline ExcitNet</b>
+      <b>WaveNet with NS</b>
       <br><br>
   </tr>
   <tr>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample002_G-WaveNet.wav">
+      <source src="samples/sample002_WaveGAN.wav">
       </audio>
       <br>
-      <b>Baseline G-WaveNet</b>
+      <b>Parallel WaveGAN</b>
       <br><br>
     </td>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample002_G-ExcitNet.wav">
+      <source src="samples/sample002_WaveGAN-NS.wav">
       </audio>
       <br>
-      <b>Baseline G-ExcitNet</b>
+      <b>Parallel WaveGAN with NS</b>
       <br><br>
   </tr>
   
@@ -192,10 +193,10 @@ Date: 22 April 2020 (last updated 15 May 2020)
     </td>    
     <td class="tg-lghr" colspan="1">
       <audio controls style="width: 250px;">
-      <source src="samples/sample003_MbG-ExcitNet.wav">
+      <source src="samples/sample003_WaveGAN-PW.wav">
       </audio>
       <br>
-      <b style="color:red">Proposed MbG-ExcitNet</b>
+      <b style="color:red">Parallel WaveGAN with PWSL</b>
       <br><br>
     </td>      
   </tr>  
@@ -205,32 +206,32 @@ Date: 22 April 2020 (last updated 15 May 2020)
       <source src="samples/sample003_WaveNet.wav">
       </audio>
       <br>
-      <b>Baseline WaveNet</b>
+      <b>WaveNet</b>
       <br><br>
     </td>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample003_ExcitNet.wav">
+      <source src="samples/sample003_WaveNet-NS.wav">
       </audio>
       <br>
-      <b>Baseline ExcitNet</b>
+      <b>WaveNet with NS</b>
       <br><br>
   </tr>
   <tr>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample003_G-WaveNet.wav">
+      <source src="samples/sample003_WaveGAN.wav">
       </audio>
       <br>
-      <b>Baseline G-WaveNet</b>
+      <b>Parallel WaveGAN</b>
       <br><br>
     </td>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample003_G-ExcitNet.wav">
+      <source src="samples/sample003_WaveGAN-NS.wav">
       </audio>
       <br>
-      <b>Baseline G-ExcitNet</b>
+      <b>Parallel WaveGAN with NS</b>
       <br><br>
   </tr>
   
@@ -248,10 +249,10 @@ Date: 22 April 2020 (last updated 15 May 2020)
     </td>    
     <td class="tg-lghr" colspan="1">
       <audio controls style="width: 250px;">
-      <source src="samples/sample004_MbG-ExcitNet.wav">
+      <source src="samples/sample004_WaveGAN-PW.wav">
       </audio>
       <br>
-      <b style="color:red">Proposed MbG-ExcitNet</b>
+      <b style="color:red">Parallel WaveGAN with PWSL</b>
       <br><br>
     </td>      
   </tr>  
@@ -261,34 +262,37 @@ Date: 22 April 2020 (last updated 15 May 2020)
       <source src="samples/sample004_WaveNet.wav">
       </audio>
       <br>
-      <b>Baseline WaveNet</b>
+      <b>WaveNet</b>
       <br><br>
     </td>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample004_ExcitNet.wav">
+      <source src="samples/sample004_WaveNet-NS.wav">
       </audio>
       <br>
-      <b>Baseline ExcitNet</b>
+      <b>WaveNet with NS</b>
       <br><br>
   </tr>
   <tr>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample004_G-WaveNet.wav">
+      <source src="samples/sample004_WaveGAN.wav">
       </audio>
       <br>
-      <b>Baseline G-WaveNet</b>
+      <b>Parallel WaveGAN</b>
       <br><br>
     </td>
     <td class="tg-lghr">      
       <audio controls style="width: 250px;">
-      <source src="samples/sample004_G-ExcitNet.wav">
+      <source src="samples/sample004_WaveGAN-NS.wav">
       </audio>
       <br>
-      <b>Baseline G-ExcitNet</b>
+      <b>Parallel WaveGAN with NS</b>
       <br><br>
   </tr>
+  
+
+  
   
 </table>
 <br>
@@ -303,9 +307,9 @@ Date: 22 April 2020 (last updated 15 May 2020)
   <br>
   [2] A. Tamamori, T. Hayashi, K. Kobayashi, K. Takeda, and T. Toda, “<a href=https://www.isca-speech.org/archive/Interspeech_2017/abstracts/0314.html>Speaker-dependent WaveNet vocoder</a>,” in Proc. INTERSPEECH, 2017, pp. 1118–1122.
   <br>
-  [3] E. Song, K. Byun, and H.-G. Kang, “<a href=https://ieeexplore.ieee.org/document/8902701/>Excitnet vocoder:  A neural excitation model for parametric speech synthesis systems</a>,” in Proc. EUSIPCO, 2019, pp. 1179-1183.
+  [3] K. Tachibana, T. Toda, Y. Shiga, and H. Kawai, “<a href=https://ieeexplore.ieee.org/document/8461332>An investigation of noise shaping with perceptual weighting for WaveNet-based speech generation</a>,” in Proc. ICASSP, 2018, pp. 5664–5668.
   <br>
-  [4] J. Shen, R. Pang, R. J. Weiss, M. Schuster, N. Jaitly, Z. Yang, Z. Chen, Y. Zhang, Y. Wang, R. Skerrv-Ryan et al., “<a href=https://ieeexplore.ieee.org/document/8461368>Natural TTS synthesis by conditioning WaveNet on mel spectrogram predictions</a>,” in Proc. ICASSP, 2018, pp. 4779–4783.
+  [4] R. Yamamoto, E. Song, and J.-M. Kim, “<a href=https://ieeexplore.ieee.org/document/9053795>Parallel WaveGAN: A fast waveform generation model based on generative adversarial networks with multi-resolution spectrogram</a>,” in Proc. ICASSP, 2020, pp. 6199–6203.
   <br>
 </div>
 
