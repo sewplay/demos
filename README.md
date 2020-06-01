@@ -1,6 +1,20 @@
 # Speech synthesis demos
 ---
 
+### Improved Parallel WaveGAN with perceptually weighted spectrogram loss
+- Authors: Eunwoo Song, Ryuichi Yamamoto, Min-Jae Hwang, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim
+- Demo page: [https://sewplay.github.io/demos/pwsl_wavegan](https://sewplay.github.io/demos/pwsl_wavegan/)
+- Submitted to: [INTERSPEECH 2020](http://www.interspeech2020.org/)
+
+---
+
+### Neural text-to-speech with a modeling-by-generation excitation vocoder
+- Authors: Eunwoo Song, Min-Jae Hwang, Ryuichi Yamamoto, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim
+- Demo page: [https://sewplay.github.io/demos/mbg_excitnet](https://sewplay.github.io/demos/mbg_excitnet/)
+- Submitted to: [INTERSPEECH 2020](http://www.interspeech2020.org/)
+
+---
+
 ### Parallel WaveGAN: A fast waveform generation model based on generative adversarial networks with multi-resolution spectrogram
 - Authors: Ryuichi Yamamoto, Eunwoo Song, Jae-Min Kim
 - Demo page: [https://r9y9.github.io/demos/projects/icassp2020](https://r9y9.github.io/demos/projects/icassp2020/)
