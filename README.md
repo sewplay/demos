@@ -4,7 +4,7 @@
 ### Parallel WaveGAN: A fast waveform generation model based on generative adversarial networks with multi-resolution spectrogram
 - Authors: Ryuichi Yamamoto, Eunwoo Song, Jae-Min Kim
 - Demo page: [https://r9y9.github.io/demos/projects/icassp2020](https://r9y9.github.io/demos/projects/icassp2020/)
-- Accepted to the conference of: [ICASSP 2020](https://2020.ieeeicassp.org/)
+- Published in: [ICASSP 2020](https://2020.ieeeicassp.org/)
 - Preprinted version: [arXiv 1910.11480](https://arxiv.org/abs/1910.11480/)
 
 ---
@@ -12,7 +12,7 @@
 ### Improving LPCNet-based text-to-speech with linear predictions-structured mixture density network
 - Authors: Min-Jae Hwang, Eunwoo Song, Ryuichi Yamamoto, Frank K. Soong, Hong-Goo Kang
 - Demo page: [https://min-jae.github.io/icassp2020](https://min-jae.github.io/icassp2020/)
-- Accepted to the conference of: [ICASSP 2020](https://2020.ieeeicassp.org/)
+- Published in: [ICASSP 2020](https://2020.ieeeicassp.org/)
 - Preprinted version: [arXiv 2001.11686](https://arxiv.org/abs/2001.11686/)
 
 ---
