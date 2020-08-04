@@ -4,7 +4,6 @@
 ### Improved Parallel WaveGAN with perceptually weighted spectrogram loss
 - Authors: Eunwoo Song, Ryuichi Yamamoto, Min-Jae Hwang, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim
 - Demo page: [https://sewplay.github.io/demos/pwsl_wavegan](https://sewplay.github.io/demos/pwsl_wavegan/)
-- Submitted to: [INTERSPEECH 2020](http://www.interspeech2020.org/)
 
 ---
 
@@ -12,7 +11,7 @@
 - Authors: Eunwoo Song, Min-Jae Hwang, Ryuichi Yamamoto, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim
 - Demo page: [https://sewplay.github.io/demos/mbg_excitnet](https://sewplay.github.io/demos/mbg_excitnet/)
 - Accepted to: [INTERSPEECH 2020](http://www.interspeech2020.org/)
-- Preprinted version:  [arXiv 2008.00132](https://arxiv.org/abs/2008.00132)
+- Preprinted version:  [arXiv 2008.00132](https://arxiv.org/abs/2008.00132/)
 
 ---
 
