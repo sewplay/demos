@@ -11,7 +11,16 @@
 ### Neural text-to-speech with a modeling-by-generation excitation vocoder
 - Authors: Eunwoo Song, Min-Jae Hwang, Ryuichi Yamamoto, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim
 - Demo page: [https://sewplay.github.io/demos/mbg_excitnet](https://sewplay.github.io/demos/mbg_excitnet/)
-- Submitted to: [INTERSPEECH 2020](http://www.interspeech2020.org/)
+- Accepted to: [INTERSPEECH 2020](http://www.interspeech2020.org/)
+- Preprinted version:  [arXiv 2008.00132](https://arxiv.org/abs/2008.00132)
+
+---
+
+### Speaker-adaptive neural vocoders for parametric speech synthesis systems
+- Authors: Eunwoo Song, Jin-Seob Kim, Kyungguen Byun, Hong-Goo Kang
+- Demo page: [https://sewplay.github.io/demos/vocoder_adaptation](https://sewplay.github.io/demos/vocoder_adaptation/)
+- Accepted to: [MMSP 2020](https://attend.ieee.org/mmsp-2020/)
+- Preprinted version: [arXiv 1811.03311](https://arxiv.org/abs/1811.03311/)
 
 ---
 
@@ -61,9 +70,3 @@
 
 ---
 
-### Speaker-adaptive neural vocoders for parametric speech synthesis systems
-- Authors: Eunwoo Song, Jinseob Kim, Kyungguen Byun, Hong-Goo Kang
-- Demo page: [https://sewplay.github.io/demos/vocoder_adaptation](https://sewplay.github.io/demos/vocoder_adaptation/)
-- Preprinted version: [arXiv 1811.03311](https://arxiv.org/abs/1811.03311/)
-
----
