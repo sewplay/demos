@@ -1,10 +1,34 @@
 # Speech synthesis demos
 ---
 
+### Parallel waveform synthesis based on generative adversarial networks with voicing-aware conditional discriminators
+- Authors: Ryuichi Yamamoto, Eunwoo Song, Min-Jae Hwang, Jae-Min Kim
+- Demo page: [https://r9y9.github.io/demos/projects/icassp2021](https://r9y9.github.io/demos/projects/icassp2021/)
+- Submitted to: [ICASSP 2021](https://2021.ieeeicassp.org/)
+- Preprinted version: [arXiv 2010.14151](https://arxiv.org/abs/2010.14151/)
+
+---
+
+### TTS-by-TTS: TTS-driven data augmentation for fast and high-quality speech synthesis
+- Authors: Min-Jae Hwang, Ryuichi Yamamoto, Eunwoo Song, Jae-Min Kim
+- Demo page: [https://min-jae.github.io/icassp2021](https://min-jae.github.io/icassp2021/)
+- Submitted to: [ICASSP 2021](https://2021.ieeeicassp.org/)
+- Preprinted version: [arXiv 2010.13421](https://arxiv.org/abs/2010.13421/)
+
+---
+
+### LP-WaveNet: Linear prediction-based WaveNet speech synthesis
+- Authors: Min-Jae Hwang, Frank Soong, Eunwoo Song, Xi Wang, Hyeonjoo Kang, Hong-Goo Kang
+- Demo page: [https://min-jae.github.io/apsipa2020](https://min-jae.github.io/apsipa2020/)
+- Accepted to: [APSIPA 2020](http://www.apsipa2020.org/)
+- Preprinted version: [arXiv 1811.11913](https://arxiv.org/abs/1811.11913/)
+
+---
+
 ### Neural text-to-speech with a modeling-by-generation excitation vocoder
 - Authors: Eunwoo Song, Min-Jae Hwang, Ryuichi Yamamoto, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim
 - Demo page: [https://sewplay.github.io/demos/mbg_excitnet](https://sewplay.github.io/demos/mbg_excitnet/)
-- Accepted to: [INTERSPEECH 2020](http://www.interspeech2020.org/)
+- Published in: [INTERSPEECH 2020](http://www.interspeech2020.org/)
 - Preprinted version:  [arXiv 2008.00132](https://arxiv.org/abs/2008.00132/)
 
 ---
@@ -12,7 +36,7 @@
 ### Speaker-adaptive neural vocoders for parametric speech synthesis systems
 - Authors: Eunwoo Song, Jin-Seob Kim, Kyungguen Byun, Hong-Goo Kang
 - Demo page: [https://sewplay.github.io/demos/vocoder_adaptation](https://sewplay.github.io/demos/vocoder_adaptation/)
-- Accepted to: [MMSP 2020](https://attend.ieee.org/mmsp-2020/)
+- Published in: [MMSP 2020](https://attend.ieee.org/mmsp-2020/)
 - Preprinted version: [arXiv 1811.03311](https://arxiv.org/abs/1811.03311/)
 
 ---
@@ -56,10 +80,4 @@
 
 ---
 
-### LP-WaveNet: Linear prediction-based WaveNet speech synthesis
-- Authors: Min-Jae Hwang, Frank Soong, Eunwoo Song, Xi Wang, Hyeonjoo Kang, Hong-Goo Kang
-- Demo page: [https://min-jae.github.io/eusipco2020](https://min-jae.github.io/eusipco2020/)
-- Preprinted version: [arXiv 1811.11913](https://arxiv.org/abs/1811.11913/)
-
----
 

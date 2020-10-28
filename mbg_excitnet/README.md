@@ -12,5 +12,5 @@
 ---
 
 - Demo page: [https://sewplay.github.io/demos/mbg_excitnet](https://sewplay.github.io/demos/mbg_excitnet/)
-- Accepted to: [INTERSPEECH 2020](http://www.interspeech2020.org/)
+- Published in: [INTERSPEECH 2020](http://www.interspeech2020.org/)
 - Preprinted version:  [arXiv 2008.00132](https://arxiv.org/abs/2008.00132)

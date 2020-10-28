@@ -13,5 +13,5 @@
 ---
 
 - Demo page: [https://sewplay.github.io/demos/vocoder_adaptation](https://sewplay.github.io/demos/vocoder_adaptation/)
-- Accepted to: [MMSP 2020](https://attend.ieee.org/mmsp-2020/)
+- Published in: [MMSP 2020](https://attend.ieee.org/mmsp-2020/)
 - Preprinted version:  [arXiv 1811.03311](https://arxiv.org/abs/1811.03311/)
