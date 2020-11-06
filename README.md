@@ -17,6 +17,12 @@
 
 ---
 
+### Improved Parallel WaveGAN with perceptually weighted spectrogram loss
+- Authors: Eunwoo Song, Ryuichi Yamamoto, Min-Jae Hwang, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim
+- Demo page: [https://sewplay.github.io/demos/wavegan-pwsl](https://sewplay.github.io/demos/wavegan-pwsl/)
+- Accepted to: [SLT 2021](http://www.slt2020.org/)
+
+---
 ### LP-WaveNet: Linear prediction-based WaveNet speech synthesis
 - Authors: Min-Jae Hwang, Frank Soong, Eunwoo Song, Xi Wang, Hyeonjoo Kang, Hong-Goo Kang
 - Demo page: [https://min-jae.github.io/apsipa2020](https://min-jae.github.io/apsipa2020/)
