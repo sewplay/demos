@@ -4,7 +4,7 @@
 ### Parallel waveform synthesis based on generative adversarial networks with voicing-aware conditional discriminators
 - Authors: Ryuichi Yamamoto, Eunwoo Song, Min-Jae Hwang, Jae-Min Kim
 - Demo page: [https://r9y9.github.io/demos/projects/icassp2021](https://r9y9.github.io/demos/projects/icassp2021/)
-- Submitted to: [ICASSP 2021](https://2021.ieeeicassp.org/)
+- Published in: [ICASSP 2021](https://2021.ieeeicassp.org/)
 - Preprinted version: [arXiv 2010.14151](https://arxiv.org/abs/2010.14151/)
 
 ---
@@ -12,7 +12,7 @@
 ### TTS-by-TTS: TTS-driven data augmentation for fast and high-quality speech synthesis
 - Authors: Min-Jae Hwang, Ryuichi Yamamoto, Eunwoo Song, Jae-Min Kim
 - Demo page: [https://min-jae.github.io/icassp2021](https://min-jae.github.io/icassp2021/)
-- Submitted to: [ICASSP 2021](https://2021.ieeeicassp.org/)
+- Published in: [ICASSP 2021](https://2021.ieeeicassp.org/)
 - Preprinted version: [arXiv 2010.13421](https://arxiv.org/abs/2010.13421/)
 
 ---
@@ -20,13 +20,13 @@
 ### Improved Parallel WaveGAN with perceptually weighted spectrogram loss
 - Authors: Eunwoo Song, Ryuichi Yamamoto, Min-Jae Hwang, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim
 - Demo page: [https://sewplay.github.io/demos/wavegan-pwsl](https://sewplay.github.io/demos/wavegan-pwsl/)
-- Accepted to: [SLT 2021](http://www.slt2020.org/)
+- Published in: [SLT 2021](http://www.slt2020.org/)
 
 ---
 ### LP-WaveNet: Linear prediction-based WaveNet speech synthesis
 - Authors: Min-Jae Hwang, Frank Soong, Eunwoo Song, Xi Wang, Hyeonjoo Kang, Hong-Goo Kang
 - Demo page: [https://min-jae.github.io/apsipa2020](https://min-jae.github.io/apsipa2020/)
-- Accepted to: [APSIPA 2020](http://www.apsipa2020.org/)
+- Published in: [APSIPA 2020](http://www.apsipa2020.org/)
 - Preprinted version: [arXiv 1811.11913](https://arxiv.org/abs/1811.11913/)
 
 ---
