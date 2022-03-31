@@ -1,330 +1,237 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Improved Parallel WaveGAN with perceptually weighted spectrogram loss
-    </title>
-    <link rel="shortcut icon" href="img/clova_192x192.png">
-    <link rel="icon" href="img/clova_192x192.png">
-    <link rel="apple-touch-icon" href="img/clova_192x192.png">
+<!DOCTYPE html>
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>TTS-by-TTS 2: Data-Selective Augmentation for Neural Speech Synthesis Using Ranking Support Vector Machine with Variational Autoencoder</title>
+<link rel="shortcut icon" href="img/clova_192x192.png">
+<link rel="icon" href="img/clova_192x192.png">
+<link rel="apple-touch-icon" href="img/clova_192x192.png">
+<meta name="generator" content="Jekyll v3.9.0">
+<meta property="og:title" content="TTS-by-TTS 2: Data-Selective Augmentation for Neural Speech Synthesis Using Ranking Support Vector Machine with Variational Autoencoder">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://sewplay.github.io/demos/txt2/">
+<meta property="og:url" content="https://sewplay.github.io/demos/txt2/">
+<meta name="twitter:card" content="summary">
+<!-- End Jekyll SEO tag -->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#157878">
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-new-gr-c-s-check-loaded="14.1001.0" data-gr-ext-installed="">
+<section class="page-header">
+<!-- <h1 class="project-name">Demo PAGE</h1> -->
+<!-- <h2 class="project-tagline"></h2> -->
+      
+      
+</section>
 
-<article>
-    <header>
-        <h1>Improved Parallel WaveGAN with perceptually weighted spectrogram loss</h1>
-    </header>
-</article>
-
-<hr>
-<div>
-Authors: <b>Eunwoo Song, Ryuichi Yamamoto, Min-Jae Hwang, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim</b>
+<section class="main-content">
+<h1 id=""><center> TTS-by-TTS 2: Data-Selective Augmentation for Neural Speech Synthesis Using Ranking Support Vector Machine with Variational Autoencoder </center></h1>
 <br>
-Date: 6 Nov 2020
-<ul>
-  <li>Abstract</li>
-    This paper proposes a spectral-domain perceptual weighting technique for Parallel WaveGAN-based text-to-speech (TTS) systems. 
-    The recently proposed Parallel WaveGAN vocoder successfully generates waveform sequences using a fast non-autoregressive WaveNet model. 
-    By employing multiresolution short-time Fourier transform (MR-STFT) criteria with a generative adversarial network, the light-weight convolutional networks can be effectively trained without any distillation process. 
-    To further improve the vocoding performance, we propose the application of frequency-dependent weighting to the MR-STFT loss function. 
-    The proposed method penalizes perceptually-sensitive errors in the frequency domain; thus, the model is optimized toward reducing auditory noise in the synthesized speech. 
-    Subjective listening test results demonstrate that our proposed method achieves 4.21 and 4.26 TTS mean opinion scores for female and male Korean speakers, respectively.
-</ul>
-  <center>
-  <img src="img/tts.png">
-  </center>
-<ul>
-  <br>
-  <li>Accepted to: <a href=http://www.slt2020.org/>SLT 2021</a></li>
-</ul>  
-</div>  
+<div id="authors">
+<center> Eunwoo Song<sup>1</sup>, Ryuichi Yamamoto<sup>2</sup>, Ohsung Kwon<sup>1</sup>, Chan-Ho Song<sup>1</sup>, Min-Jae Hwang<sup>1</sup>, </center>
+<center> Suhyeon Oh<sup>1</sup>, Hyun-Wook Yoon<sup>1</sup>, Jin-Seob Kim<sup>1</sup>, Jae-Min Kim<sup>1</sup> </center>
+</div>
+<br>
+<div id="aff">
+<center> <sup>1</sup> NAVER Corp., Seongnam, Korea</center>
+<center> <sup>2</sup> LINE Corp., Tokyo, Japan</center>
+</div>
+
 <hr>
 
-<div>
+<h2 id="abstract">Abstract</h2>
+<p>Recent advances in synthetic speech quality have enabled us to train text-to-speech (TTS) systems by using synthetic corpora. However, it has not been verified whether merely increasing the amount of synthetic data is always advantageous for improving training efficiency. Our aim in this study is to selectively choose synthetic data that are beneficial to the training process. In the proposed method, we first adopt a variational autoencoder whose posterior distribution is utilized to extract latent features representing acoustic similarity between the recorded and synthetic corpora. By using those learned features, we then train a ranking support vector machine (RankSVM) that is well known for effectively ranking relative attributes among binary classes. By setting the recorded and synthetic ones as two opposite classes, RankSVM is used to determine how the synthesized speech is acoustically similar to the recorded data. Then, synthetic TTS data, whose distribution is close to the recorded data, are selected from largescale synthetic corpora. By using these data for the TTS model training, the synthetic quality can be significantly improved. Objective and subjective evaluation results show the superiority of the proposed method over the conventional methods. </p>
+<p> </p> 
+<p>Submitted to: <a href=http://www.interspeech2022.org/>INTERSPEECH 2022 </a> (last update: 31 Mar 2022) </p> 
+<center>
+  <img src="img/tts.png">
+</center>
+  
+<br>
+
+<hr>
+
+<div id="toc_container">
+<h2><p class="toc_title">Systems</p></h2>
 <ul>
-  <li>Acoustic model
-  <ul>
-    <li>Tacotron-style model with phoneme alignment <a href="#c3">[1]</a>
-  </ul>
-  <li>Vocoding model
-  <ul>
-    <li>Proposal: Parallel WaveGAN with perceptually weighted spectrogram loss (PWSL) 
-    <li>Baseline: WaveNet <a href="#c3">[2]</a>
-    <li>Baseline: WaveNet with noise-shaping (NS) <a href="#c3">[3]</a>
-    <li>Baseline: Parallel WaveGAN <a href="#c3">[4]</a>
-    <li>Baseline: Parallel WaveGAN with NS </a>
-  </ul>
+  <li> <b>Baseline</b>: Recorded data alone (1,000 training utterances)</li>
+  <li> <b>Baseline (TxT)</b>: Recorded data + TTS-augmented data <b>without</b> any selection method (81K training utterances)</li>
+  <li> <b style="color:red">Proposed (TxT 2)</b>: Recorded data + TTS-augmented data <b>with</b> the proposed selection method (41K training utterances)</li>
 </ul>
 </div>
+<br>
 <hr>
 
-<div>
-<h2 id="c1"> TTS demos </h2>
-<ul> 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;border:none;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.tg .tg-8jgo{border-color:#ffffff;text-align:center;vertical-align:top}
-.tg .tg-lghr{border-color:#ffffff;text-align:center}
-.tg .tg-0a55{background-color:#f0f0f0;border-color:#ffffff;text-align:center;vertical-align:top}
-.tg .tg-modu{background-color:#f0f0f0;border-color:#ffffff;text-align:center}
-</style>
-<table class="tg">
-  <tr>
-    <th class="tg-modu" colspan="2"><b>Sample1</b></th>
-  </tr>
-  <tr>
-    <td class="tg-lghr" colspan="1">
-      <audio controls style="width: 250px;">
-      <source src="samples/sample001_Raw.wav">
-      </audio>
-      <br>
-      <b>Raw</b>
-      <br><br>
-    </td>    
-    <td class="tg-lghr" colspan="1">
-      <audio controls style="width: 250px;">
-      <source src="samples/sample001_WaveGAN-PW.wav">
-      </audio>
-      <br>
-      <b style="color:red">Parallel WaveGAN with PWSL</b>
-      <br><br>
-    </td>      
-  </tr>  
-  <tr>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample001_WaveNet.wav">
-      </audio>
-      <br>
-      <b>WaveNet</b>
-      <br><br>
-    </td>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample001_WaveNet-NS.wav">
-      </audio>
-      <br>
-      <b>WaveNet with NS</b>
-      <br><br>
-  </tr>
-  <tr>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample001_WaveGAN.wav">
-      </audio>
-      <br>
-      <b>Parallel WaveGAN</b>
-      <br><br>
-    </td>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample001_WaveGAN-NS.wav">
-      </audio>
-      <br>
-      <b>Parallel WaveGAN with NS</b>
-      <br><br>
-  </tr>
-  
-  <tr>
-    <th class="tg-modu" colspan="2"><b>Sample2</b></th>
-  </tr>
-  <tr>
-    <td class="tg-lghr" colspan="1">
-      <audio controls style="width: 250px;">
-      <source src="samples/sample002_Raw.wav">
-      </audio>
-      <br>
-      <b>Raw</b>
-      <br><br>
-    </td>    
-    <td class="tg-lghr" colspan="1">
-      <audio controls style="width: 250px;">
-      <source src="samples/sample002_WaveGAN-PW.wav">
-      </audio>
-      <br>
-      <b style="color:red">Parallel WaveGAN with PWSL</b>
-      <br><br>
-    </td>      
-  </tr>  
-  <tr>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample002_WaveNet.wav">
-      </audio>
-      <br>
-      <b>WaveNet</b>
-      <br><br>
-    </td>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample002_WaveNet-NS.wav">
-      </audio>
-      <br>
-      <b>WaveNet with NS</b>
-      <br><br>
-  </tr>
-  <tr>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample002_WaveGAN.wav">
-      </audio>
-      <br>
-      <b>Parallel WaveGAN</b>
-      <br><br>
-    </td>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample002_WaveGAN-NS.wav">
-      </audio>
-      <br>
-      <b>Parallel WaveGAN with NS</b>
-      <br><br>
-  </tr>
-  
-  <tr>
-    <th class="tg-modu" colspan="2"><b>Sample3</b></th>
-  </tr>
-  <tr>
-    <td class="tg-lghr" colspan="1">
-      <audio controls style="width: 250px;">
-      <source src="samples/sample003_Raw.wav">
-      </audio>
-      <br>
-      <b>Raw</b>
-      <br><br>
-    </td>    
-    <td class="tg-lghr" colspan="1">
-      <audio controls style="width: 250px;">
-      <source src="samples/sample003_WaveGAN-PW.wav">
-      </audio>
-      <br>
-      <b style="color:red">Parallel WaveGAN with PWSL</b>
-      <br><br>
-    </td>      
-  </tr>  
-  <tr>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample003_WaveNet.wav">
-      </audio>
-      <br>
-      <b>WaveNet</b>
-      <br><br>
-    </td>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample003_WaveNet-NS.wav">
-      </audio>
-      <br>
-      <b>WaveNet with NS</b>
-      <br><br>
-  </tr>
-  <tr>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample003_WaveGAN.wav">
-      </audio>
-      <br>
-      <b>Parallel WaveGAN</b>
-      <br><br>
-    </td>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample003_WaveGAN-NS.wav">
-      </audio>
-      <br>
-      <b>Parallel WaveGAN with NS</b>
-      <br><br>
-  </tr>
-  
-  <tr>
-    <th class="tg-modu" colspan="2"><b>Sample4</b></th>
-  </tr>
-  <tr>
-    <td class="tg-lghr" colspan="1">
-      <audio controls style="width: 250px;">
-      <source src="samples/sample004_Raw.wav">
-      </audio>
-      <br>
-      <b>Raw</b>
-      <br><br>
-    </td>    
-    <td class="tg-lghr" colspan="1">
-      <audio controls style="width: 250px;">
-      <source src="samples/sample004_WaveGAN-PW.wav">
-      </audio>
-      <br>
-      <b style="color:red">Parallel WaveGAN with PWSL</b>
-      <br><br>
-    </td>      
-  </tr>  
-  <tr>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample004_WaveNet.wav">
-      </audio>
-      <br>
-      <b>WaveNet</b>
-      <br><br>
-    </td>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample004_WaveNet-NS.wav">
-      </audio>
-      <br>
-      <b>WaveNet with NS</b>
-      <br><br>
-  </tr>
-  <tr>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample004_WaveGAN.wav">
-      </audio>
-      <br>
-      <b>Parallel WaveGAN</b>
-      <br><br>
-    </td>
-    <td class="tg-lghr">      
-      <audio controls style="width: 250px;">
-      <source src="samples/sample004_WaveGAN-NS.wav">
-      </audio>
-      <br>
-      <b>Parallel WaveGAN with NS</b>
-      <br><br>
-  </tr>
-  
-
-  
-  
+<a name="tts_samples"><h2>TTS samples</h2></a>
+<a name="ar"><h3>Tacotron 2 + Parallel WaveGAN</h3></a>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Ground Truth</strong></th>
+      <th style="text-align: center"><strong>Baseline</strong></th>
+      <th style="text-align: center"><strong>Baseline (TxT)</strong></th>
+      <th style="text-align: center"><strong style="color:red">Proposed (TxT 2)</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_01k_baseline/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_01k_txt/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_01k_txt2/fkhy089991.wav" controls="" preload=""></audio></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_01k_baseline/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_01k_txt/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_01k_txt2/fkhy022600.wav" controls="" preload=""></audio></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_01k_baseline/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_01k_txt/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_01k_txt2/fkhy024754.wav" controls="" preload=""></audio></td>
+    </tr>
+  </tbody>
 </table>
 <br>
-</ul> 
-</div>
+<a name="nar"><h3>FastSpeech 2 + Parallel WaveGAN</h3></a>
+<table>
+  <thead>
+      <th style="text-align: center"><strong>Ground Truth</strong></th>
+      <th style="text-align: center"><strong>Baseline</strong></th>
+      <th style="text-align: center"><strong>Baseline (TxT)</strong></th>
+      <th style="text-align: center"><strong style="color:red">Proposed (TxT 2)</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/nar_01k_baseline/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/nar_01k_txt/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/nar_01k_txt2/fkhy089991.wav" controls="" preload=""></audio></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/nar_01k_baseline/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/nar_01k_txt/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/nar_01k_txt2/fkhy022600.wav" controls="" preload=""></audio></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/nar_01k_baseline/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/nar_01k_txt/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/nar_01k_txt2/fkhy024754.wav" controls="" preload=""></audio></td>
+    </tr>
+  </tbody>
+</table>
+<br>
 
 <hr>
-<div>
-<h2 id="c3"> References </h2>
-<ul>
-  [1] T. Okamoto, T. Toda, Y. Shiga, and H. Kawai, “<a href=https://ieeexplore.ieee.org/document/9003956/>Tacotron-based acoustic model using phoneme alignment for practical neural text-to-speech systems</a>,” in Proc. ASRU, 2019, pp. 214–221.
-  <br>
-  [2] A. Tamamori, T. Hayashi, K. Kobayashi, K. Takeda, and T. Toda, “<a href=https://www.isca-speech.org/archive/Interspeech_2017/abstracts/0314.html>Speaker-dependent WaveNet vocoder</a>,” in Proc. INTERSPEECH, 2017, pp. 1118–1122.
-  <br>
-  [3] K. Tachibana, T. Toda, Y. Shiga, and H. Kawai, “<a href=https://ieeexplore.ieee.org/document/8461332>An investigation of noise shaping with perceptual weighting for WaveNet-based speech generation</a>,” in Proc. ICASSP, 2018, pp. 5664–5668.
-  <br>
-  [4] R. Yamamoto, E. Song, and J.-M. Kim, “<a href=https://ieeexplore.ieee.org/document/9053795>Parallel WaveGAN: A fast waveform generation model based on generative adversarial networks with multi-resolution spectrogram</a>,” in Proc. ICASSP, 2020, pp. 6199–6203.
-  <br>
-</div>
 
-
+<a name="tts_samples2"><h2>Additional expeirments: Different amount of recordings</h2></a>
+<a name="ar"><h3>Tacotron 2 + Parallel WaveGAN (recording: <b>4,000</b> utterances)</h3></a>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Ground Truth</strong></th>
+      <th style="text-align: center"><strong>Baseline</strong></th>
+      <th style="text-align: center"><strong>Baseline (TxT)</strong></th>
+      <th style="text-align: center"><strong style="color:red">Proposed (TxT 2)</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_04k_baseline/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_04k_txt/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_04k_txt2/fkhy089991.wav" controls="" preload=""></audio></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_04k_baseline/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_04k_txt/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_04k_txt2/fkhy022600.wav" controls="" preload=""></audio></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_04k_baseline/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_04k_txt/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_04k_txt2/fkhy024754.wav" controls="" preload=""></audio></td>
+    </tr>
+  </tbody>
+</table>
 <br>
-<hr>
-<div>
-<h2> Acknowledgements </h2>
-<ul> Work performed with nVoice team, Clova Voice, Naver Corp. </ul>  
+<a name="ar"><h3>Tacotron 2 + Parallel WaveGAN (recording: <b>7,000</b> utterances)</h3></a>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Ground Truth</strong></th>
+      <th style="text-align: center"><strong>Baseline</strong></th>
+      <th style="text-align: center"><strong>Baseline (TxT)</strong></th>
+      <th style="text-align: center"><strong style="color:red">Proposed (TxT 2)</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_07k_baseline/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_07k_txt/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_07k_txt2/fkhy089991.wav" controls="" preload=""></audio></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_07k_baseline/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_07k_txt/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_07k_txt2/fkhy022600.wav" controls="" preload=""></audio></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_07k_baseline/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_07k_txt/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_07k_txt2/fkhy024754.wav" controls="" preload=""></audio></td>
+    </tr>
+  </tbody>
+</table>
 <br>
-</div>
+<a name="ar"><h3>Tacotron 2 + Parallel WaveGAN (recording: <b>10,000</b> utterances)</h3></a>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Ground Truth</strong></th>
+      <th style="text-align: center"><strong>Baseline</strong></th>
+      <th style="text-align: center"><strong>Baseline (TxT)</strong></th>
+      <th style="text-align: center"><strong style="color:red">Proposed (TxT 2)</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_10k_baseline/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_10k_txt/fkhy089991.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_10k_txt2/fkhy089991.wav" controls="" preload=""></audio></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_10k_baseline/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_10k_txt/fkhy022600.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_10k_txt2/fkhy022600.wav" controls="" preload=""></audio></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><audio src="samples/rec/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_10k_baseline/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_10k_txt/fkhy024754.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/ar_10k_txt2/fkhy024754.wav" controls="" preload=""></audio></td>
+    </tr>
+  </tbody>
+</table>
+<br>
 
-
-</body>
-</html>
+<footer class="site-footer">
+	<span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub Pages</a>.</span>
+</footer>
+</section>
+</body></html>
