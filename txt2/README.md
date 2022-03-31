@@ -1,12 +1,15 @@
 
 ### Title
-- Improved Parallel WaveGAN with perceptually weighted spectrogram loss
+- TTS-by-TTS 2: Data-Selective Augmentation for Neural Speech Synthesis Using Ranking Support Vector Machine with Variational Autoencoder
 ### Authors
-- Eunwoo Song, Ryuichi Yamamoto, Min-Jae Hwang, Jin-Seob Kim, Ohsung Kwon, Jae-Min Kim
+<center> Eunwoo Song<sup>1</sup>, Ryuichi Yamamoto<sup>2</sup>, Ohsung Kwon<sup>1</sup>, Chan-Ho Song<sup>1</sup>, Min-Jae Hwang<sup>1</sup>, </center>
+<center> Suhyeon Oh<sup>1</sup>, Hyun-Wook Yoon<sup>1</sup>, Jin-Seob Kim<sup>1</sup>, Jae-Min Kim<sup>1</sup> </center>
+
+
+- Eunwoo Song, Ryuichi Yamamoto, Ohsung Kwon, Chan-Ho Song, Min-Jae Hwang, Jin-Seob Kim, Suhyeon Oh, Hyun-Wook Yoon, Jae-Min Kim
 ### Abstract
-- This paper proposes a spectral-domain perceptual weighting technique for Parallel WaveGAN-based text-to-speech (TTS) systems. The recently proposed Parallel WaveGAN vocoder successfully generates waveform sequences using a fast non-autoregressive WaveNet model. By employing multiresolution short-time Fourier transform (MR-STFT) criteria with a generative adversarial network, the light-weight convolutional networks can be effectively trained without any distillation process. To further improve the vocoding performance, we propose the application of frequency-dependent weighting to the MR-STFT loss function. The proposed method penalizes perceptually-sensitive errors in the frequency domain; thus, the model is optimized toward reducing auditory noise in the synthesized speech. Subjective listening test results demonstrate that our proposed method achieves 4.21 and 4.26 TTS mean opinion scores for female and male Korean speakers, respectively.
+- Recent advances in synthetic speech quality have enabled us to train text-to-speech (TTS) systems by using synthetic corpora. However, it has not been verified whether merely increasing the amount of synthetic data is always advantageous for improving training efficiency. Our aim in this study is to selectively choose synthetic data that are beneficial to the training process. In the proposed method, we first adopt a variational autoencoder whose posterior distribution is utilized to extract latent features representing acoustic similarity between the recorded and synthetic corpora. By using those learned features, we then train a ranking support vector machine (RankSVM) that is well known for effectively ranking relative attributes among binary classes. By setting the recorded and synthetic ones as two opposite classes, RankSVM is used to determine how the synthesized speech is acoustically similar to the recorded data. Then, synthetic TTS data, whose distribution is close to the recorded data, are selected from largescale synthetic corpora. By using these data for the TTS model training, the synthetic quality can be significantly improved. Objective and subjective evaluation results show the superiority of the proposed method over the conventional methods.
 ---
 
-
-- Demo page: [https://sewplay.github.io/demos/wavegan-pwsl](https://sewplay.github.io/demos/wavegan-pwsl/)
-- Accepted to: [SLT 2021](http://www.slt2020.org/)
+- Demo page: [https://sewplay.github.io/demos/txt2](https://sewplay.github.io/demos/txt2/)
+- Submitted to: [INTERSPEECH 2022](http://www.interspeech2022.org/)
